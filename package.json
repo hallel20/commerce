@@ -1,0 +1,17 @@
+{
+  "name": "commerce",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "build": "npm run build --prefix server && npm run build --prefix client",
+    "start": "concurrently \"npm --prefix server run start\" \"npm --prefix client run start\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
