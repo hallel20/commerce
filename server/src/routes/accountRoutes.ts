@@ -172,8 +172,9 @@ router.put(
 router.delete(
   "/:id",
   asyncHandler(async (req, res) => {
-    await prisma.account.delete({
+    await prisma.account.update({
       where: { id: req.params.id },
+      data: { isDeleted: true }
     });
     res.json({ message: "Account deleted successfully" });
   })

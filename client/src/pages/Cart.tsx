@@ -1,9 +1,8 @@
-import React from 'react';
 import { Trash2, Plus, Minus } from 'lucide-react';
 import { useStore } from '../lib/store';
 import { formatPrice } from '../lib/utils';
 
-export function Cart() {
+export default function Cart() {
   const { cart, removeFromCart, updateCartQuantity } = useStore();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);

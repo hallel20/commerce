@@ -1,21 +1,26 @@
-import React from 'react';
 import { User, Mail, Phone, MapPin, CreditCard } from 'lucide-react';
+import { useStore } from '../lib/store';
+// import { redirect } from 'react-router-dom';
 
-export function Account() {
-  const user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '+1 (555) 123-4567',
-    address: '123 Main St, City, Country',
-    paymentMethods: [
-      {
-        id: '1',
-        type: 'Visa',
-        last4: '4242',
-        expiry: '12/24',
-      },
-    ],
-  };
+export default function Account() {
+  const { user } = useStore() 
+  
+  const paymentMethods = [
+    {
+      id: '1',
+      type: 'Visa',
+      last4: '4242',
+      expiry: '12/24',
+    },
+  ]
+
+  if(!user) return
+  // const user = {
+  //   name: 'John Doe',
+  //   email: 'john@example.com',
+  //   phone: '+1 (555) 123-4567',
+  //   address: '123 Main St, City, Country',
+  
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -29,7 +34,7 @@ export function Account() {
             </div>
             <div className="ml-6">
               <h2 className="text-2xl font-semibold text-gray-900">
-                {user.name}
+                {user.account?.firstName + " " + user.account?.lastName}
               </h2>
               <p className="text-gray-500">Member since March 2024</p>
             </div>
@@ -47,11 +52,11 @@ export function Account() {
                 </div>
                 <div className="flex items-center text-gray-700">
                   <Phone className="h-5 w-5 mr-3" />
-                  <span>{user.phone}</span>
+                  <span>{user.account?.phone}</span>
                 </div>
                 <div className="flex items-center text-gray-700">
                   <MapPin className="h-5 w-5 mr-3" />
-                  <span>{user.address}</span>
+                  <span>{user.account?.address}</span>
                 </div>
               </div>
             </div>
@@ -61,7 +66,7 @@ export function Account() {
                 Payment Methods
               </h3>
               <div className="space-y-4">
-                {user.paymentMethods.map((method) => (
+                {paymentMethods.map((method) => (
                   <div
                     key={method.id}
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"

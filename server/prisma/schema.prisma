@@ -16,23 +16,31 @@ model Product {
   price       Float
   description String
   image       String
-  categoryId  String @unique
+  categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
   stock       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
+enum Role {
+  user
+  staff
+  admin
+}
+
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
   name      String?
+  password  String
+  role      Role      @default(user)
   orders    Order[]
   cart      Cart?
   wishlist  Wishlist?
   account   Account?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Order {
@@ -58,21 +66,21 @@ model OrderItem {
 }
 
 model Category {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String
   products    Product[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Cart {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @unique
+  id        String     @id @default(cuid())
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String     @unique
   items     CartItem[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model CartItem {
@@ -86,21 +94,21 @@ model CartItem {
 }
 
 model Wishlist {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @unique
+  id        String         @id @default(cuid())
+  user      User           @relation(fields: [userId], references: [id])
+  userId    String         @unique
   items     WishlistItem[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
 
 model WishlistItem {
-  id        String   @id @default(cuid())
-  wishlist  Wishlist @relation(fields: [wishlistId], references: [id])
+  id         String   @id @default(cuid())
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id])
   wishlistId String
-  productId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  productId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Account {
@@ -111,6 +119,7 @@ model Account {
   lastName  String
   address   String
   phone     String
+  isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

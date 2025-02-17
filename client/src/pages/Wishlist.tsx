@@ -3,7 +3,7 @@ import { Trash2, ShoppingCart } from 'lucide-react';
 import { useStore } from '../lib/store';
 import { formatPrice } from '../lib/utils';
 
-export function Wishlist() {
+export default function Wishlist() {
   const { wishlist, removeFromWishlist, addToCart } = useStore();
 
   return (

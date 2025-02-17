@@ -1,12 +1,33 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, TrendingUp, Truck, Shield, Clock } from 'lucide-react';
-import { ProductCard } from '../components/ProductCard';
+import ProductCard from '../components/ProductCard';
 import { useStore } from '../lib/store';
-import productsData from '../lib/data/products.json';
+// import productsData from '../lib/data/products.json';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
-export function Home() {
-  const { addToCart } = useStore();
+export default function Home() {
+  const { addToCart, fetchWishlist } = useStore();
+
+  const [products, setProducts] = useState<any[]>()
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/products")
+        const products = response.data
+        setProducts(products)
+      } catch (error: any) {
+        console.error(error)
+        toast.error(error.message)
+      }
+    }
+
+    fetchWishlist()
+
+    getProducts()
+  }, [])
 
   return (
     <div className="space-y-16">
@@ -25,7 +46,8 @@ export function Home() {
               Discover the Latest Trends
             </h1>
             <p className="text-xl mb-8">
-              Shop our curated collection of premium products at unbeatable prices.
+              Shop our curated collection of premium products at unbeatable
+              prices.
             </p>
             <Link
               to="/categories"
@@ -44,23 +66,23 @@ export function Home() {
           {[
             {
               icon: Truck,
-              title: 'Free Shipping',
-              description: 'On orders over $50',
+              title: "Free Shipping",
+              description: "On orders over $50",
             },
             {
               icon: Shield,
-              title: 'Secure Payment',
-              description: '100% secure checkout',
+              title: "Secure Payment",
+              description: "100% secure checkout",
             },
             {
               icon: Clock,
-              title: '24/7 Support',
-              description: 'Always here to help',
+              title: "24/7 Support",
+              description: "Always here to help",
             },
             {
               icon: TrendingUp,
-              title: 'Best Deals',
-              description: 'Competitive prices',
+              title: "Best Deals",
+              description: "Competitive prices",
             },
           ].map((feature) => (
             <div
@@ -80,7 +102,9 @@ export function Home() {
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Featured Products</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Featured Products
+          </h2>
           <Link
             to="/categories"
             className="text-blue-600 hover:text-blue-700 font-medium flex items-center"
@@ -90,7 +114,7 @@ export function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productsData.products.map((product) => (
+          {products?.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
@@ -100,7 +124,8 @@ export function Home() {
                   name: product.name,
                   price: product.price,
                   quantity: 1,
-                  image: product.image,
+                  image:
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60",
                 })
               }
             />
@@ -116,22 +141,22 @@ export function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
-              name: 'Electronics',
+              name: "Electronics",
               image:
-                'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&auto=format&fit=crop&q=60',
-              description: 'Latest gadgets and devices',
+                "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&auto=format&fit=crop&q=60",
+              description: "Latest gadgets and devices",
             },
             {
-              name: 'Clothing',
+              name: "Clothing",
               image:
-                'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=60',
-              description: 'Trendy fashion and accessories',
+                "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop&q=60",
+              description: "Trendy fashion and accessories",
             },
             {
-              name: 'Accessories',
+              name: "Accessories",
               image:
-                'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800&auto=format&fit=crop&q=60',
-              description: 'Complete your style',
+                "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800&auto=format&fit=crop&q=60",
+              description: "Complete your style",
             },
           ].map((category) => (
             <Link
@@ -165,19 +190,19 @@ export function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Sarah Johnson',
+                name: "Sarah Johnson",
                 review:
-                  'Amazing quality products and fast shipping. Will definitely shop here again!',
+                  "Amazing quality products and fast shipping. Will definitely shop here again!",
                 rating: 5,
               },
               {
-                name: 'Michael Chen',
+                name: "Michael Chen",
                 review:
-                  'Great customer service and competitive prices. Highly recommended!',
+                  "Great customer service and competitive prices. Highly recommended!",
                 rating: 5,
               },
               {
-                name: 'Emily Davis',
+                name: "Emily Davis",
                 review:
                   "The best online shopping experience I've had. Love their selection!",
                 rating: 5,

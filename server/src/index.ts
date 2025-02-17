@@ -1,3 +1,4 @@
+import asyncHandler from 'express-async-handler';
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -18,6 +19,11 @@ import categoryRoutes from "./routes/categoryRoutes";
 import cartRoutes from "./routes/cartRoutes";
 import wishlistRoutes from "./routes/wishlistRoutes";
 import accountRoutes from "./routes/accountRoutes";
+import authRoutes from "./routes/authRoutes";
+
+//Import Middlewares
+import authMiddleware from "./middlewares/authMiddleware";
+import { AuthenticatedRequest } from './types/declare';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -27,15 +33,16 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(authMiddleware)
 
 // Swagger configuration
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "E-Commerce API Documentation",
+      title: "Commerce API Documentation",
       version: "1.0.0",
-      description: "API documentation for the E-Commerce platform",
+      description: "API documentation for the Commerce platform",
     },
     servers: [
       {
@@ -43,7 +50,7 @@ const swaggerOptions = {
         description: "Development server",
       },
       {
-        url: "http://localhost:3000",
+        url: "https://commerce.cyberwizdev.com.ng",
         description: "Production server",
       },
     ],
@@ -51,17 +58,27 @@ const swaggerOptions = {
   apis: ["./routes/*.ts"],
 };
 
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // Updated path
+const specs = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Routes
-app.use("/api/products", productRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/wishlist", wishlistRoutes);
-app.use("/api/accounts", accountRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/cart", cartRoutes);
+app.use("/api/v1/wishlist", wishlistRoutes);
+app.use("/api/v1/accounts", accountRoutes);
+app.use("/api/v1/auth", authRoutes);
+
+app.get("/api/v1/profile", asyncHandler((req: AuthenticatedRequest, res: Response) => {
+  if (!req.user) {
+    res.status(401).json({ message: "Unauthorized" });
+    return
+  }
+
+  res.json({ message: "Welcome to your profile", user: req.user });
+}))
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

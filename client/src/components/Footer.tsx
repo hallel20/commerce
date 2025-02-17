@@ -10,7 +10,7 @@ import {
   Phone,
 } from 'lucide-react';
 
-export function Footer() {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -19,7 +19,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Modern Shop</h3>
+            <h3 className="text-white text-lg font-semibold mb-4">
+              Modern Shop
+            </h3>
             <div className="space-y-3">
               <p className="flex items-center">
                 <MapPin className="h-5 w-5 mr-2" />
@@ -38,7 +40,9 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-white text-lg font-semibold mb-4">
+              Quick Links
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/categories" className="hover:text-white">
@@ -96,15 +100,15 @@ export function Footer() {
               Stay Connected
             </h3>
             <form className="mb-4">
-              <div className="flex">
+              <div className="flex w-full">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 rounded-l-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 w-3/4 px-4 py-2 rounded-l-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 md:px-0 py-2 w-1/4 bg-blue-600 md:text-xs text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
                 >
                   Subscribe
                 </button>

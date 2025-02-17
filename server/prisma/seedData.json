@@ -1,0 +1,106 @@
+{
+  "categories": [
+    {
+      "name": "Electronics",
+      "description": "All electronic gadgets and devices"
+    },
+    {
+      "name": "Clothing",
+      "description": "Men and women clothing"
+    }
+  ],
+  "products": [
+    {
+      "name": "Smartphone",
+      "price": 599.99,
+      "description": "Latest smartphone with advanced features",
+      "image": "https://example.com/smartphone.jpg",
+      "categoryIndex": 0,
+      "stock": 100
+    },
+    {
+      "name": "Laptop",
+      "price": 1299.99,
+      "description": "High-performance laptop for professionals",
+      "image": "https://example.com/laptop.jpg",
+      "categoryIndex": 0,
+      "stock": 50
+    },
+    {
+      "name": "T-Shirt",
+      "price": 19.99,
+      "description": "Comfortable cotton T-shirt",
+      "image": "https://example.com/tshirt.jpg",
+      "categoryIndex": 1,
+      "stock": 200
+    }
+  ],
+  "users": [
+    {
+      "email": "user1@example.com",
+      "name": "John Doe",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user2@example.com",
+      "name": "Jane Smith",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    }
+  ],
+  "orders": [
+    {
+      "userIndex": 0,
+      "total": 599.99,
+      "status": "Pending",
+      "items": [
+        {
+          "productIndex": 0,
+          "quantity": 1,
+          "price": 599.99
+        }
+      ]
+    },
+    {
+      "userIndex": 1,
+      "total": 1299.99,
+      "status": "Completed",
+      "items": [
+        {
+          "productIndex": 1,
+          "quantity": 1,
+          "price": 1299.99
+        }
+      ]
+    }
+  ],
+  "carts": [
+    {
+      "userIndex": 0,
+      "items": [
+        {
+          "productIndex": 2,
+          "quantity": 2
+        }
+      ]
+    }
+  ],
+  "wishlists": [
+    {
+      "userIndex": 1,
+      "items": [
+        {
+          "productIndex": 0
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "userIndex": 0,
+      "firstName": "John",
+      "lastName": "Doe",
+      "address": "123 Main St, City, Country",
+      "phone": "+1234567890"
+    }
+  ]
+}

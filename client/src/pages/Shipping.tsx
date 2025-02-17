@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Shipping() {
+export default function Shipping() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Shipping Policy</h1>

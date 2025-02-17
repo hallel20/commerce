@@ -4,7 +4,7 @@ import { Download } from 'lucide-react';
 import { format } from 'date-fns';
 import { jsPDF } from 'jspdf';
 
-export function Invoice() {
+export default function Invoice() {
   const { orderId } = useParams();
 
   // Mock order data - replace with actual data fetch

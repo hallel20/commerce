@@ -40,7 +40,7 @@ const categories = [
   },
 ];
 
-export function Categories() {
+export default function Categories() {
   return (
     <div>
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Categories</h1>
