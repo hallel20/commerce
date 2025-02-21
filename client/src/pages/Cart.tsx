@@ -5,7 +5,8 @@ import { formatPrice } from '../lib/utils';
 export default function Cart() {
   const { cart, removeFromCart, updateCartQuantity } = useStore();
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // const total = cart.reduce((sum, item) => sum + item.product!.price * item.quantity, 0);
+  const total = 12;
 
   return (
     <div>
@@ -23,34 +24,49 @@ export default function Cart() {
                   <li key={item.id} className="p-6">
                     <div className="flex items-center">
                       <img
-                        src={item.image}
-                        alt={item.name}
+                        src={
+                          item.product?.images
+                            ? item.product.images.length > 0
+                              ? "/" + item.product.images[0].url
+                              : "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60"
+                            : "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60"
+                        }
+                        alt={item.product?.name}
                         className="h-24 w-24 object-cover rounded-md"
                       />
                       <div className="ml-6 flex-1">
                         <div className="flex items-center justify-between">
                           <h3 className="text-lg font-medium text-gray-900">
-                            {item.name}
+                            {item.product?.name}
                           </h3>
                           <p className="text-lg font-medium text-gray-900">
-                            {formatPrice(item.price * item.quantity)}
+                            {formatPrice(10 * item.quantity)}
+                            {/* {formatPrice(item.product!.price * item.quantity)} */}
                           </p>
                         </div>
                         <div className="mt-4 flex items-center justify-between">
                           <div className="flex items-center space-x-4">
                             <button
                               onClick={() =>
-                                updateCartQuantity(item.productId, item.quantity - 1)
+                                updateCartQuantity(
+                                  item.productId,
+                                  item.quantity - 1
+                                )
                               }
                               disabled={item.quantity <= 1}
                               className="p-1 rounded-md text-gray-400 hover:text-gray-500 disabled:opacity-50"
                             >
                               <Minus className="h-5 w-5" />
                             </button>
-                            <span className="text-gray-600">{item.quantity}</span>
+                            <span className="text-gray-600">
+                              {item.quantity}
+                            </span>
                             <button
                               onClick={() =>
-                                updateCartQuantity(item.productId, item.quantity + 1)
+                                updateCartQuantity(
+                                  item.productId,
+                                  item.quantity + 1
+                                )
                               }
                               className="p-1 rounded-md text-gray-400 hover:text-gray-500"
                             >
@@ -89,7 +105,9 @@ export default function Cart() {
                     <dd className="font-medium text-gray-900">Free</dd>
                   </div>
                   <div className="py-4 flex items-center justify-between">
-                    <dt className="text-base font-medium text-gray-900">Total</dt>
+                    <dt className="text-base font-medium text-gray-900">
+                      Total
+                    </dt>
                     <dd className="text-base font-medium text-gray-900">
                       {formatPrice(total)}
                     </dd>

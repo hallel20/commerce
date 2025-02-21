@@ -26,6 +26,7 @@ const Login = () => {
       toast("Redirecting!")
       const { data: { user } } = await axiosInstance.get("/profile")
       setUser(user)
+      if(user.role === "admin") return navigate("/admin")
       navigate("/")
     } catch (error: any) {
       toast.error("Login failed", error.message);

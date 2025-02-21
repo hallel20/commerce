@@ -6,6 +6,7 @@ import { useStore } from '../lib/store';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import api from '../lib/api';
 
 export default function Home() {
   const { addToCart, fetchWishlist } = useStore();
@@ -15,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/products")
+        const response = await axios.get(`${api}/products`)
         const products = response.data
         setProducts(products)
       } catch (error: any) {

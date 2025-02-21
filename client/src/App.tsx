@@ -5,15 +5,21 @@ import Layout from "./components/Layout";
 import LoadingSpinner from "./components/loading";
 import ClientComponent from "./components/Client";
 import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 // Lazy load all components
+const ForbiddenPage = lazy(() => import("./pages/403"));
 const StaffDashboard = lazy(() => import("./components/StaffDashboard"));
 const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 
+// Create a QueryClient instance
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <BrowserRouter>
-    <Toaster />
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Toaster />
         <Routes>
           <Route>
             <Route
@@ -42,9 +48,18 @@ function App() {
                 </Suspense>
               }
             />
+            <Route
+              path="/403"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ForbiddenPage />
+                </Suspense>
+              }
+            />
           </Route>
         </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 

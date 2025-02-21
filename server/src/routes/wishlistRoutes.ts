@@ -48,12 +48,16 @@ router.get(
   "/me",
   clientMiddleware,
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const user = req.user!
-    const wishlists = await prisma.wishlist.findMany({
+    const user = req.user!;
+    const wishlists = await prisma.wishlist.findUnique({
       where: { userId: user.id },
-      include: { items: true, user: true },
+      include: {
+        items: { include: { product: { include: { images: true } } } },
+        user: true,
+      },
     });
-    if(!wishlists) res.status(404).json({ message: "No items in wishlist yet!"})
+    if (!wishlists)
+      res.status(404).json({ message: "No items in wishlist yet!" });
     res.json(wishlists);
   })
 );
@@ -135,15 +139,18 @@ router.post(
 
       res.status(201).json({ wishlist: existingWishist, newItem });
     } else {
-    const wishlist = await prisma.wishlist.create({
-      data: {
-        userId: req.user!.id,
-        items: { create: {
-          productId,
-        }}
-      },
-    });
-    res.status(201).json(wishlist);}
+      const wishlist = await prisma.wishlist.create({
+        data: {
+          userId: req.user!.id,
+          items: {
+            create: {
+              productId,
+            },
+          },
+        },
+      });
+      res.status(201).json(wishlist);
+    }
   })
 );
 
@@ -205,11 +212,33 @@ router.put(
  */
 router.delete(
   "/:id",
-  asyncHandler(async (req: Request, res: Response) => {
-    await prisma.wishlist.delete({
-      where: { id: req.params.id },
+  clientMiddleware,
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    const wishlist = await prisma.wishlist.findUnique({
+      where: { userId: req.user!.id },
+      include: { items: true },
     });
-    res.json({ message: "Wishlist deleted successfully" });
+    if (!wishlist) {
+      res.status(404).json({
+        message: "Wishlist not found!",
+      });
+      return;
+    }
+    const item = wishlist.items.filter(
+      (item) => item.productId === req.params.id
+    );
+    console.log(item);
+    if (!item) {
+      res.status(404).json({
+        message: "Wishlist item not found",
+      });
+
+      return;
+    }
+    await prisma.wishlistItem.delete({
+      where: { id: item[0].id },
+    });
+    res.json({ message: "Product removed from wishlist" });
   })
 );
 

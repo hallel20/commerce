@@ -21,8 +21,9 @@ router.get(
   "/",
   asyncHandler(async (req: Request, res: Response) => {
     const products = await prisma.product.findMany({
-      include: { category: true },
+      include: { category: true, images: true },
     });
+    // console.log(products[3])
     res.json(products);
   })
 );
@@ -103,8 +104,16 @@ router.get(
 router.post(
   "/",
   asyncHandler(async (req: Request, res: Response) => {
+    const { name, price, description, images, categoryId, stock } = req.body;
     const product = await prisma.product.create({
-      data: req.body,
+      data: {
+        name,
+        price,
+        description,
+        categoryId,
+        stock,
+        images: { create: images.map((image: string)=> ({url: image})) }
+      },
       include: { category: true },
     });
     res.status(201).json(product);

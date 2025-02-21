@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axiosInstance from "../utils/axiosConfig";
 import toast from "react-hot-toast";
+import { isLoggedIn } from "../utils/auth";
+import { Product } from "../interfaces/types";
 
 export interface User {
   id: string;
@@ -19,6 +21,7 @@ export interface User {
 
 export interface CartItem {
   id: string;
+  product?: Product
   productId: string;
   name: string;
   price: number;
@@ -28,6 +31,7 @@ export interface CartItem {
 
 export interface WishlistItem {
   id: string;
+  product?: Product;
   productId: string;
   name: string;
   price: number;
@@ -51,7 +55,7 @@ interface Store {
 
 export const useStore = create<Store>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       cart: [],
       wishlist: { items: [] },
@@ -66,8 +70,10 @@ export const useStore = create<Store>()(
       },
       fetchWishlist: async () => {
         try {
-          const response = await axiosInstance.get("/wishlist/me");
-          set({ wishlist: response.data });
+          if (isLoggedIn()) {
+            const response = await axiosInstance.get("/wishlist/me");
+            set({ wishlist: response.data });
+          }
         } catch (error) {
           console.error(error);
         }
@@ -102,6 +108,7 @@ export const useStore = create<Store>()(
         })),
       clearCart: () => set({ cart: [] }),
       addToWishlist: async (item) => {
+        // const oldWishlistItems = [...get().wishlist.items]; // Store the old wishlist
         try {
           const response = await axiosInstance.post("/wishlist", {
             productId: item.productId,
@@ -112,7 +119,9 @@ export const useStore = create<Store>()(
           set((state) => ({
             wishlist: {
               ...state.wishlist,
-              items: [...state.wishlist.items, newItem],
+              items: state.wishlist.items
+                ? [...state.wishlist.items, newItem]
+                : [newItem],
             },
           }));
           toast.success("Product added to wishlist!");
@@ -121,14 +130,28 @@ export const useStore = create<Store>()(
           toast.error(error.message);
         }
       },
-      removeFromWishlist: (productId) =>
+      removeFromWishlist: async (productId) => {
+        const oldWishlistItems = [...get().wishlist.items]; // Store the old wishlist
+
+        // Optimistic update: Remove the item from the local state
         set((state) => ({
           wishlist: {
             items: state.wishlist.items.filter(
               (item) => item.productId !== productId
             ),
           },
-        })),
+        }));
+
+        try {
+          await axiosInstance.delete(`/wishlist/${productId}`);
+          toast.success("Product removed from wishlist");
+        } catch (ex: any) {
+          // Revert the optimistic update if the API request fails
+          set({ wishlist: { items: oldWishlistItems } });
+          toast.error(ex.message);
+          console.error(ex);
+        }
+      },
     }),
     {
       name: "ecommerce-store",

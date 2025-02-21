@@ -20,16 +20,18 @@ import cartRoutes from "./routes/cartRoutes";
 import wishlistRoutes from "./routes/wishlistRoutes";
 import accountRoutes from "./routes/accountRoutes";
 import authRoutes from "./routes/authRoutes";
+import uploadRoutes from "./routes/uploadRoutes";
 
 //Import Middlewares
 import authMiddleware from "./middlewares/authMiddleware";
 import { AuthenticatedRequest } from './types/declare';
+import path from "path";
 
 const app = express();
 const prisma = new PrismaClient();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -70,6 +72,7 @@ app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/wishlist", wishlistRoutes);
 app.use("/api/v1/accounts", accountRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/upload", uploadRoutes);
 
 app.get("/api/v1/profile", asyncHandler((req: AuthenticatedRequest, res: Response) => {
   if (!req.user) {
@@ -79,6 +82,9 @@ app.get("/api/v1/profile", asyncHandler((req: AuthenticatedRequest, res: Respons
 
   res.json({ message: "Welcome to your profile", user: req.user });
 }))
+
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

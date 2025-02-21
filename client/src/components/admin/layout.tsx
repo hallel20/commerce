@@ -5,7 +5,7 @@ const AdminLayout = ({ isAdmin, children }: { isAdmin: boolean; children: React.
   return (
     <div className="flex">
       <Sidebar isAdmin={isAdmin} />
-      <div className="flex-1">
+      <div className="xl:w-10/12 lg:w-9/12">
         <Header />
         { children }
       </div>

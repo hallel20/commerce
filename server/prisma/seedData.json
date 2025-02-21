@@ -45,6 +45,96 @@
       "email": "user2@example.com",
       "name": "Jane Smith",
       "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user3@example.com",
+      "name": "Bob Johnson",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user4@example.com",
+      "name": "Alice Brown",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user5@example.com",
+      "name": "Mike Davis",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user6@example.com",
+      "name": "Emily Chen",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user7@example.com",
+      "name": "David Lee",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user8@example.com",
+      "name": "Sophia Patel",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user9@example.com",
+      "name": "Oliver Kim",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user10@example.com",
+      "name": "Ava Wong",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user11@example.com",
+      "name": "Ethan Hall",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user12@example.com",
+      "name": "Lily Tran",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user13@example.com",
+      "name": "Logan Brooks",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user14@example.com",
+      "name": "Madison White",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user15@example.com",
+      "name": "Alexander Gray",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user16@example.com",
+      "name": "Abigail Martin",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user17@example.com",
+      "name": "Benjamin Harris",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user18@example.com",
+      "name": "Charlotte Thompson",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user19@example.com",
+      "name": "Christopher Walker",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
+    },
+    {
+      "email": "user20@example.com",
+      "name": "Daniel Russell",
+      "password": "omwdo0w9djxe9hcuwidu2wh0dowinixwwi"
     }
   ],
   "orders": [

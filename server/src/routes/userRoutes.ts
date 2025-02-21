@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import asyncHandler from "express-async-handler";
+import staffMiddleware from "../middlewares/staffMiddleware";
+import { AuthenticatedRequest } from "../types/declare";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -19,7 +21,8 @@ const prisma = new PrismaClient();
  */
 router.get(
   "/",
-  asyncHandler(async (req: Request, res: Response) => {
+  staffMiddleware,
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const users = await prisma.user.findMany({
       include: { orders: true, cart: true, wishlist: true, account: true },
     });

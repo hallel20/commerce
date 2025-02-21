@@ -9,6 +9,10 @@ type Category = {
   description: string;
 }
 
+type Image = {
+  url: string;
+}
+
 type Product = {
   name: string;
   price: number;
